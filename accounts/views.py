@@ -15,5 +15,18 @@ def register(request):
         
         return redirect('login')
 
-    return redirect(request,'accounts/register.html')
+    return render(request,'accounts/register.html')
+    
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(user)
+            return redirect('dashboard')
+
+    return render(request,'accounts/login.html')
     
