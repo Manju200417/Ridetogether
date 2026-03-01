@@ -29,4 +29,7 @@ def user_login(request):
             return redirect('dashboard')
 
     return render(request,'accounts/login.html')
-    
+
+def user_logout(request):
+    logout(request)
+    redirect('login')
