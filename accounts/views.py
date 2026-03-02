@@ -11,6 +11,7 @@ def register(request):
         password = request.POST.get('password')
 
         User.objects.create_user(
+            first_name = name,
             username=username,
             email=email,
             password=password)
@@ -27,11 +28,10 @@ def user_login(request):
         user = authenticate(request,username=username,password=password)
 
         if user is not None:
-            login(user)
+            login(request, user)
             return redirect('dashboard')
 
-        else :
-            messages.error(request,"User Not Found")
+        else : messages.error(request,"User Not Found")
 
     return render(request,'accounts/login.html')
 
