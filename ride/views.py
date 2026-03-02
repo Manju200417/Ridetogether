@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from .models import Ride
+from django.contrib import messages
 
 def dashboard(request):
     return render(request,'dashboard.html')
@@ -22,6 +23,7 @@ def create_ride(request):
             time=time,
             phone_number=phone)
         
+        messages.success(request,"Ride created successfully!")
         return redirect("create_ride")
 
     return render(request,'rides/create_ride.html')

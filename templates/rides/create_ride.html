@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Ride</title>
@@ -18,7 +19,7 @@
             background: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
@@ -55,34 +56,64 @@
             background-color: #333;
         }
 
+        .flash-message {
+            padding: 10px;
+            margin: 10px;
+            background-color: #d4edda;
+            border-radius: 5px;
+            animation: fadeOut 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            70% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Create a Ride</h2>
+    <div class="container">
+        <h2>Create a Ride</h2>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flash-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
 
-    <form method="POST">
-        {% csrf_token %}
+            <label>Source Location</label>
+            <input type="text" name="source" required>
 
-        <label>Source Location</label>
-        <input type="text" name="source" required>
+            <label>Destination Location</label>
+            <input type="text" name="destination" required>
 
-        <label>Destination Location</label>
-        <input type="text" name="destination" required>
+            <label>Date</label>
+            <input type="date" name="date" required>
 
-        <label>Date</label>
-        <input type="date" name="date" required>
+            <label>Time</label>
+            <input type="time" name="time" required>
 
-        <label>Time</label>
-        <input type="time" name="time" required>
+            <label>Phone Number</label>
+            <input type="text" name="phone_number" required>
 
-        <label>Phone Number</label>
-        <input type="text" name="phone_number" required>
-
-        <button type="submit">Post Ride</button>
-    </form>
-</div>
+            <button type="submit">Post Ride</button>
+        </form>
+    </div>
 
 </body>
+
 </html>
