@@ -25,24 +25,34 @@ def create_ride(request):
         
         messages.success(request,"Ride created successfully!")
         return redirect("create_ride")
-
     return render(request,'rides/create_ride.html')
 
+def get_matching_rides(user):
+    my_ride = Ride.objects.filter(user=user).last()
+
+    if not my_ride:
+        return Ride.objects.none()
+
+    return Ride.objects.filter(
+        source=my_ride.source,
+        destination=my_ride.destination,
+        date=my_ride.date
+    ).exclude(user=user) 
+
+
+@login_required
 def matches(request):
-
-    # get current user's ride
-    my_ride = Ride.objects.filter(user=request.user).last()
-
-    if my_ride:
-        rides = Ride.objects.filter(
-            source=my_ride.source,
-            destination=my_ride.destination,
-            date=my_ride.date
-        ).exclude(user=request.user)
-    else:
-        rides = []
-
+    rides = get_matching_rides(request.user)
     return render(request, "rides/match.html", {"rides": rides})
 
+@login_required
 def search(request):
     pass
+
+@login_required
+def profile(request):
+    data = {
+    "total_rides" : Ride.objects.filter(user=request.user).count(),
+    "total_matches" : get_matching_rides(request.user).count() }
+
+    return render(request,'profile.html',data)

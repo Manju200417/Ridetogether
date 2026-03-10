@@ -51,6 +51,17 @@
         background: black;
         color: white;
     }
+
+    .profile-link {
+        text-decoration: none;
+        color: black;
+        font-weight: 600;
+        margin-left: 4px;
+    }
+
+    .profile-link:hover {
+        text-decoration: underline;
+    }
 </style>
 
 <div class="navbar">
@@ -67,7 +78,12 @@
     <div class="right-section">
 
         {% if request.user.is_authenticated %}
-        <span>Hi, {{ request.user.username }}</span>
+        <span>
+            Hi,
+            <a href="{% url 'profile' %}" class="profile-link">
+                {{ request.user.first_name }}
+            </a>
+        </span>
 
         <a href="{% url 'logout' %}">
             <button class="logout-btn">Logout</button>
