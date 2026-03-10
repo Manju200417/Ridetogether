@@ -1,0 +1,86 @@
+<!-- Navbar -->
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 30px;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .logo {
+        font-weight: 700;
+        font-size: 18px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: #555;
+        font-size: 14px;
+    }
+
+    .nav-links a:hover {
+        color: black;
+    }
+
+    .right-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 14px;
+    }
+
+    .logout-btn {
+        padding: 6px 12px;
+        border: 1px solid black;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .logout-btn:hover {
+        background: black;
+        color: white;
+    }
+</style>
+
+<div class="navbar">
+
+    <a href="{% url 'dashboard' %}" class="logo">
+        🚴 RideTogether
+    </a>
+
+    <div class="nav-links">
+        <a href="{% url 'create_ride' %}">Create Ride</a>
+        <a href="{% url 'matches' %}">Matches</a>
+    </div>
+
+    <div class="right-section">
+
+        {% if request.user.is_authenticated %}
+        <span>Hi, {{ request.user.username }}</span>
+
+        <a href="{% url 'logout' %}">
+            <button class="logout-btn">Logout</button>
+        </a>
+
+        {% else %}
+        <span>Please login</span>
+
+        <a href="{% url 'login' %}">
+            <button class="logout-btn">Login</button>
+        </a>
+        {% endif %}
+
+    </div>
+
+</div>

@@ -27,3 +27,22 @@ def create_ride(request):
         return redirect("create_ride")
 
     return render(request,'rides/create_ride.html')
+
+def matches(request):
+
+    # get current user's ride
+    my_ride = Ride.objects.filter(user=request.user).last()
+
+    if my_ride:
+        rides = Ride.objects.filter(
+            source=my_ride.source,
+            destination=my_ride.destination,
+            date=my_ride.date
+        ).exclude(user=request.user)
+    else:
+        rides = []
+
+    return render(request, "rides/match.html", {"rides": rides})
+
+def search(request):
+    pass

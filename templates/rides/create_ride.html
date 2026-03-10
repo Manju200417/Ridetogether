@@ -3,116 +3,261 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Create Ride</title>
+    <title>Create Ride – RideTogether</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            padding: 0;
         }
 
-        .container {
-            width: 400px;
-            margin: 60px auto;
+        body {
+            background: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* MAIN */
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .page-wrapper {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
         }
 
-        h2 {
-            text-align: center;
+        /* LEFT PANEL */
+
+        .left-panel {
+            background: black;
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .badge {
+            font-size: 12px;
             margin-bottom: 20px;
         }
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 15px;
+        .left-panel h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
         }
 
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        .left-panel p {
+            font-size: 14px;
+            color: #cccccc;
         }
 
-        button {
-            width: 100%;
-            margin-top: 20px;
+        .stats-row {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .stat-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        /* RIGHT PANEL */
+
+        .right-panel {
+            padding: 40px;
+        }
+
+        .form-header {
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field.full {
+            grid-column: 1/-1;
+        }
+
+        .field label {
+            font-size: 12px;
+        }
+
+        .field input {
             padding: 10px;
-            border: none;
-            background-color: black;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        /* BUTTON */
+
+        .btn-submit {
+            margin-top: 20px;
+            padding: 12px;
+            background: black;
             color: white;
-            border-radius: 5px;
+            border: none;
+            border-radius: 6px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #333;
+        .btn-submit:hover {
+            background: #333;
         }
 
-        .flash-message {
-            padding: 10px;
-            margin: 10px;
-            background-color: #d4edda;
-            border-radius: 5px;
-            animation: fadeOut 3s forwards;
-        }
+        /* MOBILE */
 
-        @keyframes fadeOut {
-            0% {
-                opacity: 1;
+        @media(max-width:720px) {
+
+            .page-wrapper {
+                grid-template-columns: 1fr;
             }
 
-            70% {
-                opacity: 1;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
 
-            100% {
-                opacity: 0;
-                display: none;
-            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h2>Create a Ride</h2>
-        {% if messages %}
-        {% for message in messages %}
-        <div class="flash-message">
-            {{ message }}
+    {% include "nav.html" %}
+
+    <main>
+
+        <div class="page-wrapper">
+
+            <!-- LEFT PANEL -->
+
+            <div class="left-panel">
+
+                <div>
+
+                    <div class="badge">Eco Commuting</div>
+
+                    <h1>Post Your Ride<br>Share the Road</h1>
+
+                    <p>
+                        Connect with commuters on your route and reduce fuel usage.
+                    </p>
+
+                </div>
+
+                <div class="stats-row">
+
+                    <div class="stat-item">⛽ 50% Petrol Saved</div>
+
+                    <div class="stat-item">🌱 Less Pollution</div>
+
+                    <div class="stat-item">🤝 Community Travel</div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT PANEL -->
+
+            <div class="right-panel">
+
+                <div class="form-header">
+                    <h2>Create a Ride</h2>
+                    <p>Fill your ride details</p>
+                </div>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="POST">
+
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        <div class="field full">
+                            <label>Source</label>
+                            <input type="text" name="source" required>
+                        </div>
+
+                        <div class="field full">
+                            <label>Destination</label>
+                            <input type="text" name="destination" required>
+                        </div>
+
+                        <div class="field">
+                            <label>Date</label>
+                            <input type="date" name="date" required>
+                        </div>
+
+                        <div class="field">
+                            <label>Time</label>
+                            <input type="time" name="time" required>
+                        </div>
+
+                        <div class="field full">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone_number" required>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Post Ride
+                    </button>
+
+                </form>
+
+            </div>
+
         </div>
-        {% endfor %}
-        {% endif %}
-        <form method="POST">
-            {% csrf_token %}
 
-            <label>Source Location</label>
-            <input type="text" name="source" required>
+    </main>
 
-            <label>Destination Location</label>
-            <input type="text" name="destination" required>
+    {% include "footer.html" %}
 
-            <label>Date</label>
-            <input type="date" name="date" required>
-
-            <label>Time</label>
-            <input type="time" name="time" required>
-
-            <label>Phone Number</label>
-            <input type="text" name="phone_number" required>
-
-            <button type="submit">Post Ride</button>
-        </form>
-    </div>
 
 </body>
 

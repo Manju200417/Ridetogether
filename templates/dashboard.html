@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>RideTogether</title>
@@ -8,44 +9,7 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-        }
-
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            background-color: white;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .logo {
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .nav-links a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .right-section {
-            display: flex;
-            align-items: center;
-        }
-
-        .logout-btn {
-            margin-left: 15px;
-            padding: 6px 12px;
-            border: 1px solid black;
-            background: white;
-            cursor: pointer;
-            border-radius: 6px;
         }
 
         /* Hero Section */
@@ -110,27 +74,18 @@
             margin: 5px 0;
         }
 
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <div class="logo">🚴 RideTogether</div>
-
-        <div class="nav-links">
-            <a href="#">Dashboard</a>
-            <a href="{% url 'create_ride' %}">Create Ride</a>
-            <a href="#">Matches</a>
-        </div>
-
-        <div class="right-section">
-            <span>Hi, {{ request.user.username }}</span>
-            <a href="{% url 'logout' %}">
-                <button class="logout-btn">Logout</button>
-            </a>
-        </div>
-    </div>
+    {% include "nav.html" %}
 
     <!-- Hero Section -->
     <div class="hero">
@@ -143,10 +98,8 @@
                 Share one bike instead of two.
                 Reduce petrol costs, lower pollution, and build community.
             </p>
-
-            <a href="#" class="btn primary-btn">Get Started Free</a>
-            <a href="#" class="btn secondary-btn">Create a Ride</a>
-
+            <a href="{% url 'create_ride' %}" class="btn primary-btn">Post a Ride</a>
+            <a href="{% url 'search' %}" class="btn secondary-btn">Search a Ride</a>
             <div class="stats">
                 <div class="stat-item">
                     <h3>50%</h3>
@@ -164,9 +117,12 @@
         </div>
 
         <div>
-           
+
         </div>
     </div>
 
+    {% include "footer.html" %}
+
 </body>
+
 </html>
