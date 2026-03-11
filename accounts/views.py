@@ -26,17 +26,20 @@ def register(request):
     return render(request,'accounts/register.html')
     
 def user_login(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(request,username=username,password=password)
 
-        if user is not None:
+        if user:
             login(request, user)
             return redirect('dashboard')
-
-        else : messages.error(request,"User Not Found")
+        
+        messages.error(request, "Invalid username or password")
 
     return render(request,'accounts/login.html')
 

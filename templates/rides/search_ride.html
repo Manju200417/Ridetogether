@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Search a Ride - RideTogether</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+background:#f9f9f9;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+/* MAIN */
+
+main{
+flex:1;
+display:flex;
+justify-content:center;
+padding:40px 20px;
+}
+
+/* NEW WRAPPER (same concept as create ride page) */
+
+.page-wrapper{
+width:100%;
+max-width:900px;
+}
+
+/* TITLE */
+
+.page-title{
+margin-bottom:25px;
+}
+
+.page-title h1{
+font-size:28px;
+margin-bottom:4px;
+}
+
+.page-title p{
+color:#777;
+font-size:14px;
+}
+
+/* SEARCH CARD */
+
+.search-card{
+background:white;
+border:1px solid #ddd;
+padding:25px;
+margin-bottom:25px;
+}
+
+.search-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr auto;
+gap:10px;
+}
+
+input{
+padding:10px;
+border:1px solid #ccc;
+width:100%;
+}
+
+button{
+padding:10px 20px;
+background:black;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#333;
+}
+
+/* RESULTS */
+
+.results-header{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+font-size:13px;
+color:#777;
+}
+
+.ride-list{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.ride-card{
+background:white;
+border:1px solid #ddd;
+padding:18px;
+display:grid;
+grid-template-columns:auto 1fr auto;
+gap:15px;
+align-items:center;
+}
+
+.rider-avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:black;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.route-row{
+font-weight:600;
+margin-bottom:4px;
+}
+
+.meta{
+font-size:13px;
+color:#666;
+}
+
+.call-btn{
+background:black;
+color:white;
+border:none;
+padding:8px 16px;
+cursor:pointer;
+}
+
+.call-btn:hover{
+background:#333;
+}
+
+.empty{
+text-align:center;
+padding:40px;
+background:white;
+border:1px solid #ddd;
+}
+
+</style>
+</head>
+
+<body>
+
+{% include "nav.html" %}
+
+<main>
+
+<div class="page-wrapper">
+
+<div class="page-title">
+<h1>Search a Ride</h1>
+<p>Find commuters going your way.</p>
+</div>
+
+<div class="search-card">
+
+<form method="GET">
+
+<div class="search-grid">
+
+<input name="source" placeholder="From" value="{{ request.GET.source }}">
+
+<input name="destination" placeholder="To" value="{{ request.GET.destination }}">
+
+<input type="date" name="date" value="{{ request.GET.date }}">
+
+<button type="submit">Search</button>
+
+</div>
+
+</form>
+
+</div>
+
+<div class="results-header">
+<span>Available Rides</span>
+<span>{{ rides|length }} rides found</span>
+</div>
+
+<div class="ride-list">
+
+{% for ride in rides %}
+
+<div class="ride-card">
+
+<div class="rider-avatar">
+{{ ride.user.username|first|upper }}
+</div>
+
+<div>
+
+<div class="route-row">
+{{ ride.source }} → {{ ride.destination }}
+</div>
+
+<div class="meta">
+{{ ride.date }} | {{ ride.time }} <br>
+Driver: {{ ride.user.username }}
+</div>
+
+</div>
+
+<a href="tel:{{ ride.phone_number }}">
+<button class="call-btn">Call</button>
+</a>
+
+</div>
+
+{% empty %}
+
+<div class="empty">
+<h3>No rides found</h3>
+<p>Try different search filters.</p>
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</main>
+
+</body>
+
+</html>

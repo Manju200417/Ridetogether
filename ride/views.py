@@ -46,8 +46,26 @@ def matches(request):
     return render(request, "rides/match.html", {"rides": rides})
 
 @login_required
-def search(request):
-    pass
+def search_ride(request):
+
+    rides = Ride.objects.all()
+
+    source = request.GET.get("source")
+    destination = request.GET.get("destination")
+    date = request.GET.get("date")
+
+    if source:
+        rides = rides.filter(source__icontains=source)
+
+    if destination:
+        rides = rides.filter(destination__icontains=destination)
+
+    if date:
+        rides = rides.filter(date=date)
+
+    rides = rides.exclude(user=request.user)
+
+    return render(request,"rides/search_ride.html",{"rides":rides})
 
 @login_required
 def profile(request):
